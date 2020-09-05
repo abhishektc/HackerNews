@@ -1,0 +1,18 @@
+.showMore a{
+    width: 100%;
+    text-align: center;
+    font-size: 12px;
+  }
+li{
+    list-style: none;
+}
+p{
+    margin-bottom: 5px;
+    font-size: 12px;
+}
+.comments{
+    font-size: 12px;
+}
+.comments:hover{
+    cursor: pointer;
+}

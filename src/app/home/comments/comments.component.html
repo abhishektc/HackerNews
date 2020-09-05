@@ -1,0 +1,16 @@
+
+<div class="comments">
+    <span class="btn-link"  *ngIf="loadCom" (click)="loadComments()" style="color: blue;">Load Comments</span>
+    <span *ngIf="showComm" style="color: rgb(184, 123, 123);">Comments</span>
+</div>
+<div *ngIf="showComm">
+    <ul>
+        <li *ngFor="let comment of allComments" >
+            <p *ngIf="comment?.text"><span style="font-weight: 600;">{{comment?.by }}</span>->&nbsp;&nbsp;<span [innerHTML]="comment?.text"></span></p>
+                <app-comments *ngIf="comment?.kids"  [comments]="comment?.kids"></app-comments>
+        </li>
+        <div *ngIf="showMore" class="showMore">
+            <a  class="btn btn-link" (click)="showMoreComments()">Show more...</a>
+        </div>
+    </ul> 
+</div>

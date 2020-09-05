@@ -1,0 +1,96 @@
+<div class="toolbar" role="banner">
+    <div class="card2">
+        <span>HackersNews</span>
+    </div>
+
+    <div class="spacer"></div>
+
+    <div class="cardleft">
+        <a routerLink="/bookmarks"><mat-icon aria-hidden="false" aria-label="Example home icon">favorite</mat-icon>&nbsp;Bookmarks ({{totalBookmarks}})</a>
+    </div>
+</div>
+<div class="content">
+    <div style="margin:0 5%;width: 90%;">
+        <div  
+            class="search-results"
+            infiniteScroll
+            [infiniteScrollDistance]="2"
+            [infiniteScrollThrottle]="50"
+            (scrolled)="onScroll()"
+            >
+            <div class="row" style="margin: 0% 1%">
+                <div class="col-md-12 d-flex justify-content-center" *ngIf="spinner1">
+                    <mat-spinner></mat-spinner>
+                </div>
+                <ng-container  *ngFor="let res of result">
+                    <div class="colum" *ngIf="res?.url">
+                        <div class="card1">
+                            <div class="leftItems" data-toggle="modal" (click)="displayArticles(res.title,res.url)"  data-target=".bd-example-modal-lg">
+                                <div class="title">
+                                    <span>Title: {{res.title}}</span>
+                                    <span style="color: rgb(129, 129, 121);font-weight: 400;">&nbsp;Author: {{res.by}}</span>
+                                </div>
+                                <div class="webUrl">
+                                    <span>Website: {{res.url}}</span>
+                                </div>  
+                            </div>
+                            <div class="rightItems">
+                                <mat-icon class="favourite" (click)="addBookmarks(res.id,res.title,res.by,res.url)">favorite</mat-icon>
+                            </div>
+                        </div>
+                        <div class="card" *ngIf="res.kids" style="padding-left: 10px;width: 100%;">
+                            <app-comments  [comments]="res.kids"></app-comments>
+                        </div>
+                    </div>
+                    <div class="colum" *ngIf="!res?.url">
+                        <div class="card1">
+                            <div class="leftItems" data-toggle="modal" (click)="displayArticlesText(res.title,res.text)"  data-target=".bd-example-modal-lg">
+                                <div class="title">
+                                    <span>Title: {{res.title}}</span>
+                                    <span style="color: rgb(129, 129, 121);font-weight: 400;">&nbsp;Author: {{res.by}}</span>
+                                </div>
+                                <div class="webUrl">
+                                    <span>Website: {{res.url}}</span>
+                                </div>  
+                            </div>
+                            <div class="rightItems">
+                                <mat-icon class="favourite" (click)="addBookmarks(res.id,res.title,res.by,res.url)">favorite</mat-icon>
+                            </div>
+                        </div>
+                        <div class="card" *ngIf="res.kids" style="padding-left: 10px;width: 100%;">
+                            <app-comments  [comments]="res.kids"></app-comments>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+        <div class="col-md-12 d-flex justify-content-center" *ngIf="spinner">
+            <mat-spinner></mat-spinner>
+        </div>
+    </div>
+    
+    
+    <div *ngIf = "!noMoreData" class="row pb-5">
+        <div class="col-md-12 d-flex justify-content-center">
+          <div class="text-muted h6 alert alert-secondary p-2">No more items to show</div>
+        </div>
+    </div>    
+
+    <div class="modal fade bd-example-modal-lg"  tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="margin-top:80px;margin-bottom:0px">
+          <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="exampleModalLabel">{{title}}</h6>
+                <button type="button" class="close" data-dismiss="modal" (click)="closeModel()" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" *ngIf="showFrame">
+                <iframe [src]="urld" width="760px" height="550px"></iframe>
+            </div>
+            <div *ngIf="!showFrame">
+                <p [innerHTML]="textApi" style="padding: 5px;" class="justify-content-center"></p> 
+            </div>
+        </div>
+      </div>
+</div>
